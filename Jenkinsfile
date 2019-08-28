@@ -11,7 +11,7 @@ def emailNotification(buildstatus,sysdate,relnum){
         emailBody= """<p style='font-family: verdana,arial,sans-serif;font-size:12px;'>Hello Prudhvi, <br><br> Official Integration has been started with the following parameters. <br><br> DATE : <b> ${env.DATE} </b><br><br> INTEGRATION_VERSION : <b> ${env.INTEGRATION_VERSION} </b><br><br> TOPAS_PRODUCTS_BRANCH : <b> ${env.TOPAS_PRODUCTS_BRANCH}</b> <br><br> TOPAS_FRAMEWORK : <b> ${env.TOPAS_FRAMEWORK} </b><br><br> PROJECT_SPECIFIC_TAGS : <b> ${env.PROJECT_SPECIFIC_TAGS} </b><br><br> PLATFORM_OVERRIDE : <b> ${env.PLATFORM_OVERRIDE} </b><br><br> <br><br><br><br> <b>Mit freundlichen Grüßen / Best regards<br>RBEI/ECA3-PS_Integrators</b></p>"""
     }
     else if("${buildstatus}"=='Aborted'){
-        recipentlist="M.PrudhviKumarReddy@in.bosch.com" 
+        recipentlist="M.PrudhviKumarReddy@in.bosch.com; ${env.FROM}" 
         emailBody= """<p style='font-family: verdana,arial,sans-serif;font-size:12px;'>Aborted</p>"""
     }
     else if("${buildstatus}"=='Failed'){
@@ -41,6 +41,7 @@ pipeline {
         string(name: 'TOPAS_FRAMEWORK', defaultValue: '', description: "", trim: true)
         string(name: 'PROJECT_SPECIFIC_TAGS', defaultValue: '', description: "", trim: true)
         string(name: 'PLATFORM_OVERRIDE', defaultValue: '', description: "", trim: true)
+        string(name: 'FROM', defaultValue: '', description: "", trim: true)
     }
     stages {
         
@@ -60,6 +61,7 @@ pipeline {
                     env.TOPAS_FRAMEWORK=TOPAS_FRAMEWORK
                     env.PROJECT_SPECIFIC_TAGS=PROJECT_SPECIFIC_TAGS
                     env.PLATFORM_OVERRIDE=PLATFORM_OVERRIDE
+                    env.FROM=FROM
             }
         }
     }   
